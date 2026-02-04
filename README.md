@@ -1,6 +1,8 @@
-# Simple rust shell
+# rust shell
 
 project to learn the basics of rust
+
+turned into an obsession to make the full terminal
 
 ## Usage
 
@@ -24,14 +26,14 @@ should be same on both windows and linux
 
 ## Plans for features
 
+ - [x] external commands
  - [x] get a working `ls` command for linux and windows
  - [x] get a working `pwd` command
  - [x] get a working `cd` command
- - [ ] get nano to work
  - [x] get working `cat` command
- - [x] external commands
- - [ ] piping between commands
  - [ ] get `grep` to work
+ - [ ] get nano to work
+ - [ ] piping between commands
  - [ ] move to a full terminal emulator
 
 ## Acknowledgements

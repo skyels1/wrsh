@@ -1,10 +1,11 @@
 use std::io; // obvious
 use std::io::Write; // this allows flush on stdout
-use std::process::Command; // used to take in commands
-use std::env; // changing dir
-use std::fs; // reading files
+use std::process::Command; // used to take in external commands
+use std::env; // changing environment variables
+use std::fs; // file system
 use std::path::Path; // used to get ls to list files
 
+// function for cat to take in the path and show the contents
 fn builtin_cat<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
     let contents = fs::read_to_string(path)
@@ -13,12 +14,14 @@ fn builtin_cat<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     Ok(())
 }
 
+// function for cd to change to the desired dir
 fn builtin_cd<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
     std::env::set_current_dir(path)?;
     Ok(())
 }
 
+// function for ls to list the files
 fn builtin_ls<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
     let path = Path::new(path);
@@ -32,6 +35,7 @@ fn builtin_ls<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     Ok(())
 }
 
+// print working dir
 fn builtin_pwd() -> io::Result<()> {
     let dir = env::current_dir()?;
     println!("{}", dir.display());
