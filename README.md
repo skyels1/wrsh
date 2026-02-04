@@ -5,8 +5,13 @@ project to learn the basics of rust
 ## Plans for features
 
  - [x] get a working `ls` command for linux and windows
+ - [x] get a working `pwd` command
+ - [x] get a working `cd` command
+ - [ ] get nano to work
  - [x] external commands
  - [ ] piping between commands
+ - [ ] get `grep` to work
+ - [ ] move to a full terminal emulator
 
 ## Installation and guide
 

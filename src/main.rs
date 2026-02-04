@@ -5,6 +5,12 @@ use std::env;
 use std::fs;
 use std::path::Path;
 
+fn builtin_cd<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
+    let path = parts.next().unwrap_or(".");
+    std::env::set_current_dir(path)?;
+    Ok(())
+}
+
 fn builtin_ls<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
     let path = Path::new(path);
@@ -46,6 +52,7 @@ fn main() {
                     break;
                 }
 
+                // for empty lines
                 if command == "" {
                     continue;
                 }
@@ -53,6 +60,14 @@ fn main() {
                 // ls command work around for windows (bad work around but initial works)
                 if command == "ls" {
                     if let Err(e) = builtin_ls(parts) {
+                        eprintln!("ls: {}", e)
+                    }
+                    continue;
+                }
+
+                // cd command
+                if command == "cd" {
+                    if let Err(e) = builtin_cd(parts) {
                         eprintln!("ls: {}", e)
                     }
                     continue;
