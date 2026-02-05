@@ -8,8 +8,7 @@ use std::path::Path; // used to get ls to list files
 // function for cat to take in the path and show the contents
 fn builtin_cat<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
-    let contents = fs::read_to_string(path)
-        .expect("File not found");
+    let contents = fs::read_to_string(path)?;
     println!("{}", contents);
     Ok(())
 }
@@ -45,7 +44,7 @@ fn builtin_pwd() -> io::Result<()> {
 fn main() {
     loop {
         let cwd = env::current_dir().unwrap_or_else(|_| "?".into());
-        print!("{}> ", cwd.display());
+        print!("rust_shell {}> ", cwd.display());
         io::stdout().flush().unwrap();
         let mut input = String::new();
 
@@ -69,7 +68,7 @@ fn main() {
                     continue;
                 }
 
-                // ls command work around for windows (bad work around but initial works)
+                // ls command
                 if command == "ls" {
                     if let Err(e) = builtin_ls(parts) {
                         eprintln!("ls: {}", e)
