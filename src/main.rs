@@ -8,6 +8,21 @@ use std::fs::File;
 use std::io::BufReader; // for better cat with big files
 use std::io::prelude::*; // not even sure what this is for
 
+fn builtin_grep<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
+    let pattern = parts.next().unwrap_or(".");
+    let path = parts.next().unwrap_or(".");
+    let f = File::open(path)?;
+    let reader = BufReader::new(f);
+    for line in reader.lines() {
+        let line = line?;
+        if line.contains(pattern) {
+            println!("{}", line)
+        }
+    }
+
+    Ok(())
+}
+
 fn builtin_cat<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let path = parts.next().unwrap_or(".");
     let f = File::open(path)?;
@@ -102,6 +117,14 @@ fn main() {
                 if command == "cat" {
                     if let Err(e) = builtin_cat(parts) {
                         eprintln!("cat: {}", e)
+                    }
+                    continue;
+                }
+
+                // grep command
+                if command == "grep" {
+                    if let Err(e) = builtin_grep(parts) {
+                        eprintln!("grep: {}", e)
                     }
                     continue;
                 }

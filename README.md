@@ -31,7 +31,7 @@ should be same on both windows and linux
  - [x] get a working `pwd` command
  - [x] get a working `cd` command
  - [x] get working `cat` command
- - [ ] get `grep` to work
+ - [x] get `grep` to work
  - [ ] get nano to work
  - [ ] piping between commands
  - [ ] move to a full terminal emulator
