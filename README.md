@@ -32,12 +32,13 @@ should be same on both windows and linux
  - [x] get a working `cd` command
  - [x] get working `cat` command
  - [x] get `grep` to work
-      grep pattern file
+     grep pattern file
  - [x] get `nano` to work (kind of)
-      only works on linux/git bash, on windows just do `notepad file` or if you have nvim that also works
+     only works on linux/git bash, on windows just do `notepad file` or if you have nvim that also works
  - [x] working `fetch` command
-      if neofetch or any other fetch downloaded it is supported
- - [ ] piping between commands
+     if neofetch or any other fetch downloaded it is supported
+ - [x] piping between commands
+     works for external commands only at the moment
  - [ ] move to a full terminal emulator
 
 ## Acknowledgements

@@ -10,6 +10,27 @@ use std::io::prelude::*;
 use std::process::Stdio; // not even sure what this is for
 use sysinfo::System; // system info for fetch
 
+fn builtin_pipe(left_cmd: &str, right_cmd: &str) {
+    let mut left_parts = left_cmd.split_whitespace();
+    let mut right_parts = right_cmd.split_whitespace();
+
+    let mut left = Command::new(left_parts.next().unwrap())
+        .args(left_parts)
+        .stdout(Stdio::piped())
+        .spawn()
+        .expect("Failed to spawn left command");
+
+    let mut right = Command::new(right_parts.next().unwrap())
+        .args(right_parts)
+        .stdin(left.stdout.take().unwrap())
+        .stdout(Stdio::inherit())
+        .spawn()
+        .expect("Failed to spawn right command");
+
+    right.wait().unwrap();
+    left.wait().unwrap();
+}
+
 fn builtin_fetch() -> io::Result<()> {
     let mut sys = System::new_all();
     sys.refresh_all();
@@ -100,6 +121,17 @@ fn main() {
             Ok(0) => break,
             Ok(_) => {
 
+                let builtins = ["ls", "cd", "pwd", "cat", "grep"];
+                let cmds: Vec<&str> = input.trim().split('|').map(|s| s.trim()).collect();
+
+                if cmds.len() == 2 {
+                    if builtins.contains(&cmds[0]) || builtins.contains(&cmds[1]) {
+                        println!("Piping builtin commands not supported yet...")
+                    } else {
+                        builtin_pipe(cmds[0], cmds[1]);
+                        continue;
+                    }
+                }
                 // create parts and split to get the command
                 let mut parts = input.trim().split_whitespace();
                 let command = parts.next().unwrap_or("");
