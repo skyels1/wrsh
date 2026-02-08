@@ -1,4 +1,4 @@
-# rust shell
+# wrsh - Windows Replacement Shell
 
 project to learn the basics of rust
 
@@ -32,8 +32,11 @@ should be same on both windows and linux
  - [x] get a working `cd` command
  - [x] get working `cat` command
  - [x] get `grep` to work
- - [x] get nano to work (kind of)
-        only works on linux/git bash, on windows just do `notepad file`
+      grep pattern file
+ - [x] get `nano` to work (kind of)
+      only works on linux/git bash, on windows just do `notepad file` or if you have nvim that also works
+ - [x] working `fetch` command
+      if neofetch or any other fetch downloaded it is supported
  - [ ] piping between commands
  - [ ] move to a full terminal emulator
 

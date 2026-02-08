@@ -8,6 +8,31 @@ use std::fs::File;
 use std::io::BufReader; // for better cat with big files
 use std::io::prelude::*;
 use std::process::Stdio; // not even sure what this is for
+use sysinfo::System; // system info for fetch
+
+fn builtin_fetch() -> io::Result<()> {
+    let mut sys = System::new_all();
+    sys.refresh_all();
+
+    // for let cpu check on windows needed if empty
+    let cpu = {
+    let brand = sys.global_cpu_info().brand();
+    if brand.is_empty() {
+        sys.cpus().first().map(|c| c.brand()).unwrap_or("Unknown CPU") // fix for empty cpu on windows
+    } else {
+        brand
+    }
+    };
+    let total = sys.total_memory() / 1024 / 1024;
+    let used = sys.used_memory() / 1024 / 1024;
+
+    println!("OS: {}", std::env::consts::OS);
+    println!("Shell: wrsh");
+    println!("CPU: {}", cpu);
+    println!("Ram: {} MiB / {} MiB", used, total);
+
+    Ok(())
+}
 
 fn builtin_grep<'a>(mut parts: impl Iterator<Item = &'a str>) -> io::Result<()> {
     let pattern = parts.next().unwrap_or(".");
@@ -66,7 +91,7 @@ fn builtin_pwd() -> io::Result<()> {
 fn main() {
     loop {
         let cwd = env::current_dir().unwrap_or_else(|_| "?".into());
-        print!("rust_shell {}> ", cwd.display());
+        print!("wrsh {}> ", cwd.display());
         io::stdout().flush().unwrap();
         let mut input = String::new();
 
@@ -130,9 +155,17 @@ fn main() {
                     continue;
                 }
 
+                // fetch command
+                if command == "fetch" {
+                    if let Err(e) = builtin_fetch() {
+                        eprintln!("fetch: {}", e)
+                    }
+                    continue;
+                }
+
                 match Command::new(command)
                     .args(parts)
-                    .stdin(Stdio::inherit())
+                    .stdin(Stdio::inherit()) // this block for using nano and editers
                     .stdout(Stdio::inherit())
                     .stderr(Stdio::inherit())
                     .status() // supposedly better here than output to handle crashing?
