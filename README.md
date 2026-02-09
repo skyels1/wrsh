@@ -26,22 +26,22 @@ should be same on both windows and linux
 
 ## Plans for features
 
- - *v0.1.0* - [x] external commands
- - *v0.2.0* - [x] get a working `ls` command for linux and windows
- - *v0.3.0* - [x] get a working `pwd` command
- - *v0.4.0* - [x] get a working `cd` command
- - *v0.5.0* - [x] get working `cat` command
- - *v0.6.0* - [x] get `grep` to work
+ - [x] external commands
+ - [x] get a working `ls` command for linux and windows
+ - [x] get a working `pwd` command
+ - [x] get a working `cd` command
+ - [x] get working `cat` command
+ - [x] get `grep` to work
      grep pattern file
- - *v0.7.0* - [x] get `nano` to work (kind of)
+ - [x] get `nano` to work (kind of)
      only works on linux/git bash, on windows just do `notepad file` or if you have nvim that also works
- - *v0.8.0* - [x] working `fetch` command
+ - [x] working `fetch` command
      if neofetch or any other fetch downloaded it is supported
- - *v0.9.0* - [x] piping between commands
+ - [x] piping between commands
      works for external commands only at the moment
- - *v0.9.1* - [x] move to a full terminal emulator
+ - *v0.9.1* - move to a full terminal emulator
      works for shell if you follow guide below
- - *v1.0.0* - [x] stable fully working shell
+ - *v1.0.0* - stable fully working shell
  - [ ] get working nano fully made from scratch
  - [ ] get working piping native to windows
  - [ ] fill out fetch more
