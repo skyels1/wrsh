@@ -26,20 +26,35 @@ should be same on both windows and linux
 
 ## Plans for features
 
- - [x] external commands
- - [x] get a working `ls` command for linux and windows
- - [x] get a working `pwd` command
- - [x] get a working `cd` command
- - [x] get working `cat` command
- - [x] get `grep` to work
+ - *v0.1.0* - [x] external commands
+ - *v0.2.0* - [x] get a working `ls` command for linux and windows
+ - *v0.3.0* - [x] get a working `pwd` command
+ - *v0.4.0* - [x] get a working `cd` command
+ - *v0.5.0* - [x] get working `cat` command
+ - *v0.6.0* - [x] get `grep` to work
      grep pattern file
- - [x] get `nano` to work (kind of)
+ - *v0.7.0* - [x] get `nano` to work (kind of)
      only works on linux/git bash, on windows just do `notepad file` or if you have nvim that also works
- - [x] working `fetch` command
+ - *v0.8.0* - [x] working `fetch` command
      if neofetch or any other fetch downloaded it is supported
- - [x] piping between commands
+ - *v0.9.0* - [x] piping between commands
      works for external commands only at the moment
- - [ ] move to a full terminal emulator
+ - *v0.9.1* - [x] move to a full terminal emulator
+     works for shell if you follow guide below
+ - *v1.0.0* - [x] stable fully working shell
+ - [ ] get working nano fully made from scratch
+ - [ ] get working piping native to windows
+ - [ ] fill out fetch more
+ - [ ] add more grep options
+
+## how to use in terminal
+
+if you want to use this shell in terminal
+1. git clone the repo
+2. cargo build --release
+3. open the terminal settings toml or yaml
+4. set file path to the /target/release/wrsh.exe
+5. run the terminal
 
 ## Acknowledgements
 
