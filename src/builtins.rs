@@ -35,6 +35,10 @@ pub fn fetch() -> io::Result<()> {
     sys.refresh_all();
     let hostname = sysinfo::System::host_name().unwrap_or_else(|| "Unknown version".to_string());
 
+    let uptime = sysinfo::System::uptime();
+    let uptime_hours = uptime / 3600;
+    let uptime_minutes = (uptime % 3600) / 60;
+
     // for let cpu check on windows needed if empty
     let cpu = {
     let brand = sys.global_cpu_info().brand();
@@ -52,10 +56,13 @@ pub fn fetch() -> io::Result<()> {
     let os_version = sysinfo::System::os_version().unwrap_or_else(|| "Unknown version".to_string());
 
     println!("Hostname: {}", hostname);
+    println!("Uptime: {}h {}m", uptime_hours, uptime_minutes);
     println!("OS: {} {}", std::env::consts::OS, os_version);
     println!("Shell: wrsh");
     println!("CPU: {} ({} cores)", cpu.trim(), sys.cpus().len());
     println!("Ram: {} MiB / {} MiB ({:.1}%)", used, total, mem_percent);
+
+    println!();
 
     Ok(())
 }
