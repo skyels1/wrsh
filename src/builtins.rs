@@ -33,6 +33,7 @@ pub fn pipe(left_cmd: &str, right_cmd: &str) {
 pub fn fetch() -> io::Result<()> {
     let mut sys = System::new_all();
     sys.refresh_all();
+    let hostname = sysinfo::System::host_name().unwrap_or_else(|| "Unknown version".to_string());
 
     // for let cpu check on windows needed if empty
     let cpu = {
@@ -46,10 +47,15 @@ pub fn fetch() -> io::Result<()> {
     let total = sys.total_memory() / 1024 / 1024;
     let used = sys.used_memory() / 1024 / 1024;
 
-    println!("OS: {}", std::env::consts::OS);
+    let mem_percent = (used as f32/ total as f32) * 100.0;
+
+    let os_version = sysinfo::System::os_version().unwrap_or_else(|| "Unknown version".to_string());
+
+    println!("Hostname: {}", hostname);
+    println!("OS: {} {}", std::env::consts::OS, os_version);
     println!("Shell: wrsh");
-    println!("CPU: {}", cpu);
-    println!("Ram: {} MiB / {} MiB", used, total);
+    println!("CPU: {} ({} cores)", cpu.trim(), sys.cpus().len());
+    println!("Ram: {} MiB / {} MiB ({:.1}%)", used, total, mem_percent);
 
     Ok(())
 }
